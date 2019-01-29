@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
+#include "../OOP_Exercise_DLVN_App/Class.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOP_Exercise_DLVN", "OOP_Exercise_DLVN\OOP_Exercise_DLVN.vcxproj", "{63DEA7B3-A4F8-47D4-A0D6-8F202D4236A8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOP_Exercise_DLVN_test", "OOP_Exercise_DLVN\OOP_Exercise_DLVN.vcxproj", "{63DEA7B3-A4F8-47D4-A0D6-8F202D4236A8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOP_Exercise_DLVN_App", "OOP_Exercise_DLVN_App\OOP_Exercise_DLVN_App.vcxproj", "{AFEF2765-3319-4C24-ABA7-17E03D3FE481}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{63DEA7B3-A4F8-47D4-A0D6-8F202D4236A8}.Release|x64.Build.0 = Release|x64
 		{63DEA7B3-A4F8-47D4-A0D6-8F202D4236A8}.Release|x86.ActiveCfg = Release|Win32
 		{63DEA7B3-A4F8-47D4-A0D6-8F202D4236A8}.Release|x86.Build.0 = Release|Win32
+		{AFEF2765-3319-4C24-ABA7-17E03D3FE481}.Debug|x64.ActiveCfg = Debug|x64
+		{AFEF2765-3319-4C24-ABA7-17E03D3FE481}.Debug|x64.Build.0 = Debug|x64
+		{AFEF2765-3319-4C24-ABA7-17E03D3FE481}.Debug|x86.ActiveCfg = Debug|Win32
+		{AFEF2765-3319-4C24-ABA7-17E03D3FE481}.Debug|x86.Build.0 = Debug|Win32
+		{AFEF2765-3319-4C24-ABA7-17E03D3FE481}.Release|x64.ActiveCfg = Release|x64
+		{AFEF2765-3319-4C24-ABA7-17E03D3FE481}.Release|x64.Build.0 = Release|x64
+		{AFEF2765-3319-4C24-ABA7-17E03D3FE481}.Release|x86.ActiveCfg = Release|Win32
+		{AFEF2765-3319-4C24-ABA7-17E03D3FE481}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
