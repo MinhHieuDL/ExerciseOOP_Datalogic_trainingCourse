@@ -45,7 +45,7 @@ namespace OOP_Exercise_DLVN
 				break;
 			}
 			conveyor->setNameForConveyor();
-			conveyor->next = head;
+			conveyor->setNextConveyor(head);
 			head = conveyor;
 		}
 	};
@@ -59,30 +59,36 @@ namespace OOP_Exercise_DLVN
 		{
 			return CandyFactory->getConveyor()->getName();
 		}
-
-		TEST_METHOD(canInsertMultipleConveyors)
+		TEST_METHOD(canSetNameForFactory)
 		{
 			CandyFactory->setName();
 			Assert::IsTrue(CandyFactory->getName() == "DLVN");
+		}
+
+		TEST_METHOD(canSetNumberOfConveyorInFactory)
+		{
 			CandyFactory->setNumberOfConveyors();
 			Assert::IsTrue(CandyFactory->getNumberOfConveyors() == 3);
-			for (unsigned int i = 0; i < CandyFactory->getNumberOfConveyors(); i++)
+		}
+
+		TEST_METHOD(canInsertOneConveyor)
+		{
+			CandyFactory->insertConveyor(Normal);
+			Assert::IsTrue(GetNameOfConveyorFromFactory() == "Normal1");
+			Assert::IsTrue(NormalConveyorTest::_count == 1);
+		}
+
+		TEST_METHOD(canInsertMultipleConveyors)
+		{
+			CandyFactory->setNumberOfConveyors();
+			for (unsigned int i = 0; i < CandyFactory->getNumberOfConveyors(); ++i)
 			{
 				CandyFactory->insertConveyor(Normal);
 				Assert::IsTrue(GetNameOfConveyorFromFactory() == "Normal" + to_string(NormalConveyorTest::_count));
-				if (i == CandyFactory->getNumberOfConveyors())
+				/*if (i == 2)
 				{
-					ConveyorBase *ptr;
-					ptr = CandyFactory->getConveyor(); // ptr = head
-					for (unsigned j = i; j > 0; j--)
-					{
-						Assert::IsTrue(ptr->getName() == "Normal"+to_string(j));
-						if (j == 0)
-						{
-							Assert::IsTrue(ptr == NULL);
-						}
-					}
-				}
+					Assert::IsTrue(GetNameOfConveyorFromFactory() == "Normal1");
+				}*/
 			}
 		}
 

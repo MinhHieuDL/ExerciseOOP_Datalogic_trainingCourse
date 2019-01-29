@@ -7,6 +7,8 @@
 #include <string>
 
 using namespace std;
+//Product
+
 // Conveyor
 typedef enum  
 {
@@ -17,10 +19,12 @@ class ConveyorBase
 {
 protected:
 	string nameOfConveyor;
+	ConveyorBase *next;
 public:
 	virtual void setNameForConveyor() = 0;
 	string getName();
-	ConveyorBase *next;
+	void setNextConveyor(ConveyorBase *nextConveyor);
+	ConveyorBase* getNextConveyor();
 };
 
 class NormalConveyorUI : public ConveyorBase
@@ -44,6 +48,7 @@ public:
 	unsigned int getNumberOfConveyors();
 	virtual void insertConveyor(kindOFConveyor) = 0;
 	ConveyorBase* getConveyor();
+	void displayNameOfConveyorInFactory();
 };
 
 class FactoryUI : virtual public FactoryAbstract

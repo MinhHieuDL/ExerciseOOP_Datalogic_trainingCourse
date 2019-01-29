@@ -22,13 +22,13 @@ ConveyorBase * FactoryAbstract::getConveyor()
 
 void FactoryUI::setName()
 {
-	cout << "Enter the name of factory";
+	cout << "Enter the name of factory: ";
 	cin >> nameOfFactory;
 }
 
 void FactoryUI::setNumberOfConveyors()
 {
-	cout << "Enter the number of conveyor";
+	cout << "Enter the number of conveyor: ";
 	cin >> numberOfConveyors;
 }
 
@@ -43,21 +43,42 @@ void FactoryUI::insertConveyor(kindOFConveyor kOC)
 		break;
 	}
 	conveyor->setNameForConveyor();
-	conveyor->next = head;
+	conveyor->setNextConveyor(head);
 	head = conveyor;
+}
+
+void FactoryAbstract::displayNameOfConveyorInFactory()
+{
+	ConveyorBase *ptr;
+	ptr = head;
+	for (unsigned int i = 0; i < numberOfConveyors; i++)
+	{
+		cout << ptr->getName() << endl;
+		ptr = ptr->getNextConveyor();
+	}
 }
 
 
 // class Conveyor
 void NormalConveyorUI::setNameForConveyor()
 {
-	cout << "Enter the name of conveyor";
+	cout << "Enter the name of conveyor: ";
 	cin >> nameOfConveyor;
 }
 
 string ConveyorBase::getName()
 {
 	return nameOfConveyor;
+}
+
+void ConveyorBase::setNextConveyor(ConveyorBase * nextConveyor)
+{
+	next = nextConveyor;
+}
+
+ConveyorBase * ConveyorBase::getNextConveyor()
+{
+	return next;
 }
 
 
