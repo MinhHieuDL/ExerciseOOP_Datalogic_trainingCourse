@@ -5,7 +5,19 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace OOP_Exercise_DLVN
-{		
+{	
+
+	// Class Conveyor test
+	class NormalConveyorTest : public ConveyorBase
+	{
+	public:
+		void setNameForConveyor()
+		{
+			nameOfConveyor = "Normal";
+		}
+	};
+
+	// Class Factory test
 	class FactoryTest : public FactoryAbstract
 	{
 	public:
@@ -16,6 +28,11 @@ namespace OOP_Exercise_DLVN
 		void setNumberOfConveyors()
 		{
 			numberOfConveyors = 3;
+		}
+		void insertConveyor()
+		{
+			conveyor = new NormalConveyorTest;
+			conveyor->setNameForConveyor();
 		}
 	};
 
@@ -34,6 +51,12 @@ namespace OOP_Exercise_DLVN
 		{
 			CandyFactory->setNumberOfConveyors();
 			Assert::IsTrue(CandyFactory->getNumberOfConveyors() == 3);
+		}
+
+
+		TEST_METHOD(canInsertConveyor)
+		{
+			CandyFactory->insertConveyor();
 		}
 	};
 }

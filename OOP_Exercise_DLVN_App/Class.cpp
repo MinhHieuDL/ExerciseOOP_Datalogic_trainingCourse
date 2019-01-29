@@ -1,5 +1,7 @@
+
 #include "Class.h"
 
+// Class Factory
 string FactoryAbstract::getName()
 {
 	return nameOfFactory;
@@ -8,6 +10,12 @@ string FactoryAbstract::getName()
 unsigned int FactoryAbstract::getNumberOfConveyors()
 {
 	return numberOfConveyors;
+}
+
+void FactoryUI::insertConveyor()
+{
+	conveyor = new NormalConveyorUI;
+	conveyor->setNameForConveyor();
 }
 
 void FactoryUI::setName()
@@ -23,3 +31,9 @@ void FactoryUI::setNumberOfConveyors()
 }
 
 
+// class Conveyor
+void NormalConveyorUI::setNameForConveyor()
+{
+	cout << "Enter the name of conveyor";
+	cin >> nameOfConveyor;
+}
