@@ -19,6 +19,8 @@ protected:
 	string nameOfConveyor;
 public:
 	virtual void setNameForConveyor() = 0;
+	string getName();
+	ConveyorBase *next;
 };
 
 class NormalConveyorUI : public ConveyorBase
@@ -34,21 +36,22 @@ protected:
 	string nameOfFactory;
 	unsigned int numberOfConveyors;
 	ConveyorBase *conveyor;
+	static ConveyorBase *head;
 public:
 	virtual void setName() = 0;
 	string getName();
 	virtual void setNumberOfConveyors() = 0;
 	unsigned int getNumberOfConveyors();
-	virtual void insertConveyor() = 0;
+	virtual void insertConveyor(kindOFConveyor) = 0;
+	ConveyorBase* getConveyor();
 };
-
 
 class FactoryUI : virtual public FactoryAbstract
 {
 public:
 	void setName();
 	void setNumberOfConveyors();
-	void insertConveyor();
+	void insertConveyor(kindOFConveyor);
 };
 
 

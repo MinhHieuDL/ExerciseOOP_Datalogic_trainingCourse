@@ -2,6 +2,8 @@
 #include "Class.h"
 
 // Class Factory
+ConveyorBase* FactoryAbstract::head = NULL;
+
 string FactoryAbstract::getName()
 {
 	return nameOfFactory;
@@ -12,11 +14,11 @@ unsigned int FactoryAbstract::getNumberOfConveyors()
 	return numberOfConveyors;
 }
 
-void FactoryUI::insertConveyor()
+ConveyorBase * FactoryAbstract::getConveyor()
 {
-	conveyor = new NormalConveyorUI;
-	conveyor->setNameForConveyor();
+	return head;
 }
+
 
 void FactoryUI::setName()
 {
@@ -30,6 +32,21 @@ void FactoryUI::setNumberOfConveyors()
 	cin >> numberOfConveyors;
 }
 
+void FactoryUI::insertConveyor(kindOFConveyor kOC)
+{
+	switch (kOC)
+	{
+	case Normal:
+		conveyor = new NormalConveyorUI;
+		break;
+	default:
+		break;
+	}
+	conveyor->setNameForConveyor();
+	conveyor->next = head;
+	head = conveyor;
+}
+
 
 // class Conveyor
 void NormalConveyorUI::setNameForConveyor()
@@ -37,3 +54,10 @@ void NormalConveyorUI::setNameForConveyor()
 	cout << "Enter the name of conveyor";
 	cin >> nameOfConveyor;
 }
+
+string ConveyorBase::getName()
+{
+	return nameOfConveyor;
+}
+
+
