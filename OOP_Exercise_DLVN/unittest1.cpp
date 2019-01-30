@@ -17,7 +17,7 @@ namespace OOP_Exercise_DLVN
 		}
 		void setNameForConveyor()
 		{
-			nameOfConveyor = "Normal"+to_string(_count);
+			nameOfConveyor = "Normal" + to_string(_count);
 		}
 	};
 	unsigned int NormalConveyorTest::_count = 0;
@@ -34,6 +34,7 @@ namespace OOP_Exercise_DLVN
 		{
 			numberOfConveyors = 3;
 		}
+#if 0
 		void insertConveyor(kindOFConveyor kOC)
 		{
 			switch (kOC)
@@ -85,13 +86,11 @@ namespace OOP_Exercise_DLVN
 			{
 				CandyFactory->insertConveyor(Normal);
 				Assert::IsTrue(GetNameOfConveyorFromFactory() == "Normal" + to_string(NormalConveyorTest::_count));
-				/*if (i == 2)
-				{
-					Assert::IsTrue(GetNameOfConveyorFromFactory() == "Normal1");
-				}*/
 			}
 		}
 
 
+	};
+#endif 
 	};
 }

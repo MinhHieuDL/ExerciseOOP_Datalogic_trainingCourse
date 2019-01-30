@@ -7,8 +7,27 @@
 #include <string>
 
 using namespace std;
+//Material
+class Material
+{
+private:
+	string nameOfMaterial;
+public:
+	void setNameOfMaterial();
+	string getNameOfMaterial();
+};
 //Product
-
+class Product
+{
+private:
+	string name;
+	Product *next;
+public:
+	void setNextProduct(Product *nextProduct);
+	void setName(unsigned int);
+	string getNameOfProduct();
+	Product* getNextProduct();
+};
 // Conveyor
 typedef enum  
 {
@@ -25,12 +44,26 @@ public:
 	string getName();
 	void setNextConveyor(ConveyorBase *nextConveyor);
 	ConveyorBase* getNextConveyor();
+	virtual void Run() = 0;
+	virtual kindOFConveyor getType() = 0;
 };
 
 class NormalConveyorUI : public ConveyorBase
 {
-public:
+private:
+	unsigned int numberOfProduct;
+	Product product;
+	static Product *headOfProductList;
+	void insertProduct(unsigned int);
+public: 
+	// class Conveyor
 	void setNameForConveyor();
+	void setNumberOfProduct();
+	unsigned int getNumberOfProduct();
+	void Run();
+	Product* getProduct();
+	kindOFConveyor getType();
+	void displayNameofProductInConveyor();
 };
 
 // Factory
