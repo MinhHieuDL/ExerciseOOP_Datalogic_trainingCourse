@@ -8,7 +8,7 @@
 #include <sstream>
 
 using namespace std;
-//Material
+// Material
 class Material
 {
 private:
@@ -20,7 +20,16 @@ public:
 	void setNextMaterial(Material*);
 	Material* getNextMaterial();
 };
-//Product
+
+typedef struct Node
+{
+	string data;
+	struct Node *nextNodeMaterial;
+} NodeMaterial;
+
+void deleteListOFNodeMAterial(NodeMaterial *head);
+
+// Product
 class Product
 {
 private:
@@ -36,7 +45,9 @@ public:
 	void setNextProduct(Product *nextProduct);
 	Product* getNextProduct();
 	void insertMaterial(string MaterialName);
+	Material* getHeadOfMaterialList();
 };
+
 // Conveyor
 typedef enum  
 {
@@ -72,6 +83,7 @@ public:
 	Product* getProduct();
 	kindOFConveyor getType();
 	void displayNameofProductInConveyor();
+	static Product* getHeadOfProductList();
 };
 
 // Factory
@@ -90,6 +102,7 @@ public:
 	virtual void insertConveyor(kindOFConveyor) = 0;
 	ConveyorBase* getConveyor();
 	void displayNameOfConveyorInFactory();
+	void productManufactoring(string ListOfMaterial);
 };
 
 class FactoryUI : virtual public FactoryAbstract

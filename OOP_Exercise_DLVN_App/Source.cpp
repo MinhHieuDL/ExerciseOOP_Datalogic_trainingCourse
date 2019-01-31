@@ -2,6 +2,7 @@
 
 int main(void)
 {
+	
 	FactoryAbstract *Scanner = new FactoryUI;
 	Scanner->setName();
 	Scanner->setNumberOfConveyors();
@@ -9,9 +10,15 @@ int main(void)
 	{
 		Scanner->insertConveyor(Normal);
 	}
-	Scanner->displayNameOfConveyorInFactory();
-	cin.get();
-	cin.get();
+
+	string ListMater;
+	while(ListMater != "exit")
+	{
+		cout << "Enter the list of material that you want - separate by comma: ";
+		cin >> ListMater;
+		Scanner->productManufactoring(ListMater);
+	}
+	system("pause");
 	return 0;
 }
 
