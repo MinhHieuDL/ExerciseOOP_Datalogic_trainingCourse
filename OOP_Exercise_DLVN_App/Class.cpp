@@ -30,6 +30,7 @@ void FactoryUI::setNumberOfConveyors()
 {
 	cout << "Enter the number of conveyor: ";
 	cin >> numberOfConveyors;
+	cout << "*************************************************************************" << endl;
 }
 
 void FactoryUI::insertConveyor(kindOFConveyor kOC)
@@ -45,9 +46,10 @@ void FactoryUI::insertConveyor(kindOFConveyor kOC)
 	break;
 	}
 	conveyor->setNameForConveyor();
-	conveyor->Run();
+	conveyor->setUpConveyor();
 	conveyor->setNextConveyor(headOfConveyorInList);
 	headOfConveyorInList = conveyor;
+	cout << "*************************************************************************" << endl;
 }
 
 void FactoryAbstract::displayNameOfConveyorInFactory()
@@ -77,8 +79,6 @@ void FactoryAbstract::productManufactoring(string ListOfMaterial)
 		countNode++;
 	}
 
-	cout << "countNode = " << countNode << endl;
-
 	// find the Conveyor that make product from the list of material
 	ConveyorBase *pConveyer = NULL;
 	pConveyer = headOfConveyorInList;
@@ -90,8 +90,8 @@ void FactoryAbstract::productManufactoring(string ListOfMaterial)
 			Product *pProduct = NULL;
 			pProduct = pConveyorNormal->getHeadOfProductList();
 			while(pProduct != NULL)
-			{
-				if (pConveyorNormal->getNumberOfProduct() == countNode)
+			{ 
+				if (pProduct->getNumberOfMaterial() == countNode)
 				{
 					Material *pMaterial = NULL;
 					pMaterial = pProduct->getHeadOfMaterialList();
@@ -101,18 +101,17 @@ void FactoryAbstract::productManufactoring(string ListOfMaterial)
 						NodeMaterial *pNodeMaterial = headOfListMaterialEnteredByUser;
 						while(pNodeMaterial != NULL)
 						{
-							//cout << "the material of" << pProduct->getNameOfProduct() << " is: " << pMaterial->getNameOfMaterial() << endl;
 							if (pMaterial->getNameOfMaterial() == pNodeMaterial->data)
 								_countNumberMaterialEqualToListMaterialEntered++;
 							pNodeMaterial = pNodeMaterial->nextNodeMaterial;
 						}
 						pMaterial = pMaterial->getNextMaterial();
 					}
-					cout << "_countNumberMaterialEqualToListMaterialEntered = " << _countNumberMaterialEqualToListMaterialEntered << endl;
 					if (_countNumberMaterialEqualToListMaterialEntered == countNode)
 					{
 						cout << "The product: " << pProduct->getNameOfProduct() << " has make already!! " << "It stays on: " << pConveyer->getName() << " conveyor" << endl;
-						cout << "You can go to there to take it" << endl;
+						cout << "You can go to there to take it!!" << endl;
+						cout << "*************************************************************************" << endl;
 						deleteListOFNodeMAterial(headOfListMaterialEnteredByUser);
 						return;  // exit the function
 					}
@@ -123,6 +122,7 @@ void FactoryAbstract::productManufactoring(string ListOfMaterial)
 		pConveyer = pConveyer->getNextConveyor();
 	}
 	cout << "Our Factory do not make the product from the material that you have entered!!" << endl;
+	cout << "*************************************************************************" << endl;
 	deleteListOFNodeMAterial(headOfListMaterialEnteredByUser);
 }
 
@@ -170,7 +170,7 @@ unsigned int NormalConveyorUI::getNumberOfProduct()
 	return numberOfProduct;
 }
 
-inline void NormalConveyorUI::Run()
+inline void NormalConveyorUI::setUpConveyor()
 {
 	setUpProduct();
 }
@@ -233,7 +233,7 @@ void Product::setUpMaterial()
 {
 	unsigned int _dem = 0;
 	string MaterialList;
-	cout << "Enter the list of material that need to make product --" << nameOfProduct << " separate by the comma: ";
+	cout << "Enter the list of material that need to make product " << nameOfProduct << " separate by the comma: ";
 	cin >> MaterialList;
 	string tokenMaterial;
 	std::istringstream ss(MaterialList);
@@ -311,3 +311,5 @@ void deleteListOFNodeMAterial(NodeMaterial * head)
 		ptCurrent = ptNext;
 	}
 }
+
+

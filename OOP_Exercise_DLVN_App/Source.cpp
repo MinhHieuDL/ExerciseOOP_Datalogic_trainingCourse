@@ -12,10 +12,11 @@ int main(void)
 	}
 
 	string ListMater;
-	while(ListMater != "exit")
+	while(1)
 	{
 		cout << "Enter the list of material that you want - separate by comma: ";
 		cin >> ListMater;
+		if (ListMater == "exit") break;
 		Scanner->productManufactoring(ListMater);
 	}
 	system("pause");
