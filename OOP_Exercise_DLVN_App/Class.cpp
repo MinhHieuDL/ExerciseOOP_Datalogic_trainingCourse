@@ -39,14 +39,12 @@ void FactoryUI::insertConveyor(kindOFConveyor kOC)
 	case Normal:
 	{
 		conveyor = new NormalConveyorUI;
-		NormalConveyorUI *pNCUI = (NormalConveyorUI *)conveyor;
-		pNCUI->setNameForConveyor();
-		pNCUI->setNumberOfProduct();
 		break;
 	}
 	default:
 	break;
 	}
+	conveyor->setNameForConveyor();
 	conveyor->Run();
 	conveyor->setNextConveyor(headOfConveyorInList);
 	headOfConveyorInList = conveyor;
@@ -65,13 +63,29 @@ void FactoryAbstract::displayNameOfConveyorInFactory()
 
 /******************************************************Class Conveyor*****************************************************/
 Product* NormalConveyorUI::headOfProductList = NULL;
-void NormalConveyorUI::insertProduct(unsigned int index)
+void NormalConveyorUI::insertProduct(string ProductName)
 {
 	Product* newProduct = new Product;
-	newProduct->setName(index);
+	newProduct->setName(ProductName);
 	newProduct->setUpMaterial();
 	newProduct->setNextProduct(headOfProductList);
 	headOfProductList = newProduct;
+}
+
+void NormalConveyorUI::setUpProduct()
+{
+	unsigned int _dem = 0;
+	string ProductList;
+	cout << "Enter the list of product that was made on " << nameOfConveyor << "conveyor separate by the comma"  << ": ";
+	cin >> ProductList;
+	string tokenProduct;
+	std::istringstream ss(ProductList);
+	while (getline(ss, tokenProduct, ','))
+	{
+		insertProduct(tokenProduct);
+		_dem++;
+	}
+	numberOfProduct = _dem;
 }
 
 void NormalConveyorUI::setNameForConveyor()
@@ -80,11 +94,6 @@ void NormalConveyorUI::setNameForConveyor()
 	cin >> nameOfConveyor;
 }
 
-void NormalConveyorUI::setNumberOfProduct()
-{
-	cout << "Enter number of Product on " << nameOfConveyor << " conveyor: ";
-	cin >> numberOfProduct;
-}
 
 unsigned int NormalConveyorUI::getNumberOfProduct()
 {
@@ -93,10 +102,7 @@ unsigned int NormalConveyorUI::getNumberOfProduct()
 
 inline void NormalConveyorUI::Run()
 {
-	for (unsigned int i = 0; i < numberOfProduct; i++)
-	{
-		insertProduct(i);
-	}
+	setUpProduct();
 }
 
 Product * NormalConveyorUI::getProduct()
@@ -147,7 +153,7 @@ void Product::setUpMaterial()
 {
 	unsigned int _dem = 0;
 	string MaterialList;
-	cout << "Enter the list of material that need to make product - separate by the comma " << name << ": ";
+	cout << "Enter the list of material that need to make product " << nameOfProduct << " separate by the comma: ";
 	cin >> MaterialList;
 	string tokenMaterial;
 	std::istringstream ss(MaterialList);
@@ -164,15 +170,14 @@ unsigned int Product::getNumberOfMaterial()
 	return numberOfMaterial;
 }
 
-void Product::setName(unsigned int index)
+void Product::setName(string PrName)
 {
-	cout << "Enter the name of product " << "[" << index << "]: ";
-	cin >> name;
+	nameOfProduct = PrName;
 }
 
 string Product::getNameOfProduct()
 {
-	return name;
+	return nameOfProduct;
 }
 
 Product * Product::getNextProduct()

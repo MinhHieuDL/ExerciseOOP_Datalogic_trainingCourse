@@ -24,14 +24,14 @@ public:
 class Product
 {
 private:
-	string name;
+	string nameOfProduct;
 	Product *nextProductInList;
 	unsigned int numberOfMaterial;
 	static Material *headOfMaterialList;
 public:
 	void setUpMaterial();
 	unsigned int getNumberOfMaterial();
-	void setName(unsigned int);
+	void setName(string);
 	string getNameOfProduct();
 	void setNextProduct(Product *nextProduct);
 	Product* getNextProduct();
@@ -63,11 +63,10 @@ private:
 	unsigned int numberOfProduct;
 	Product product;
 	static Product *headOfProductList;
-	void insertProduct(unsigned int);
+	void insertProduct(string ProductName);
+	void setUpProduct();
 public: 
-	// class Conveyor
 	void setNameForConveyor();
-	void setNumberOfProduct();
 	unsigned int getNumberOfProduct();
 	void Run();
 	Product* getProduct();
