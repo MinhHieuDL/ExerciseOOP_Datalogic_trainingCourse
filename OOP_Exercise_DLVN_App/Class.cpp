@@ -101,7 +101,7 @@ void FactoryAbstract::productManufactoring(string ListOfMaterial)
 						NodeMaterial *pNodeMaterial = headOfListMaterialEnteredByUser;
 						while(pNodeMaterial != NULL)
 						{
-							cout << "the material of" << pProduct->getNameOfProduct() << " is: " << pMaterial->getNameOfMaterial() << endl;
+							//cout << "the material of" << pProduct->getNameOfProduct() << " is: " << pMaterial->getNameOfMaterial() << endl;
 							if (pMaterial->getNameOfMaterial() == pNodeMaterial->data)
 								_countNumberMaterialEqualToListMaterialEntered++;
 							pNodeMaterial = pNodeMaterial->nextNodeMaterial;
@@ -127,7 +127,7 @@ void FactoryAbstract::productManufactoring(string ListOfMaterial)
 }
 
 /******************************************************Class Conveyor*****************************************************/
-Product* NormalConveyorUI::headOfProductList = NULL;
+//Product* NormalConveyorUI::headOfProductList = NULL;
 void NormalConveyorUI::insertProduct(string ProductName)
 {
 	Product* newProduct = new Product;
@@ -151,6 +151,11 @@ void NormalConveyorUI::setUpProduct()
 		_dem++;
 	}
 	numberOfProduct = _dem;
+}
+
+NormalConveyorUI::NormalConveyorUI()
+{
+	headOfProductList = NULL;
 }
 
 void NormalConveyorUI::setNameForConveyor()
@@ -219,6 +224,11 @@ void Product::setNextProduct(Product * nextProduct)
 }
 
 
+Product::Product()
+{
+	headOfMaterialList = NULL;
+}
+
 void Product::setUpMaterial()
 {
 	unsigned int _dem = 0;
@@ -269,7 +279,7 @@ Material * Product::getHeadOfMaterialList()
 }
 
 /*****************************************************class Material*****************************************************/
-Material* Product::headOfMaterialList = NULL;
+//Material* Product::headOfMaterialList = NULL;
 void Material::setNameMaterial(string name)
 {
 	nameOfMaterial = name;

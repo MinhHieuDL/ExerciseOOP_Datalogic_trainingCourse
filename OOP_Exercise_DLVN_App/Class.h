@@ -36,8 +36,9 @@ private:
 	string nameOfProduct;
 	Product *nextProductInList;
 	unsigned int numberOfMaterial;
-	static Material *headOfMaterialList;
+	Material *headOfMaterialList;
 public:
+	Product();
 	void setUpMaterial();
 	unsigned int getNumberOfMaterial();
 	void setName(string);
@@ -73,17 +74,18 @@ class NormalConveyorUI : public ConveyorBase
 private:
 	unsigned int numberOfProduct;
 	Product product;
-	static Product *headOfProductList;
+	Product *headOfProductList;
 	void insertProduct(string ProductName);
 	void setUpProduct();
 public: 
+	NormalConveyorUI();
 	void setNameForConveyor();
 	unsigned int getNumberOfProduct();
 	void Run();
 	Product* getProduct();
 	kindOFConveyor getType();
 	void displayNameofProductInConveyor();
-	static Product* getHeadOfProductList();
+	Product* getHeadOfProductList();
 };
 
 // Factory
