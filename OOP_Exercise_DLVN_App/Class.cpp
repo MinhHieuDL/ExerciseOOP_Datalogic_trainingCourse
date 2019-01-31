@@ -1,8 +1,8 @@
 
 #include "Class.h"
 
-// Class Factory
-ConveyorBase* FactoryAbstract::head = NULL;
+/******************************************************Class Factory******************************************************/ 
+ConveyorBase* FactoryAbstract::headOfConveyorInList = NULL;
 
 string FactoryAbstract::getName()
 {
@@ -16,7 +16,7 @@ unsigned int FactoryAbstract::getNumberOfConveyors()
 
 ConveyorBase * FactoryAbstract::getConveyor()
 {
-	return head;
+	return headOfConveyorInList;
 }
 
 
@@ -42,21 +42,20 @@ void FactoryUI::insertConveyor(kindOFConveyor kOC)
 		NormalConveyorUI *pNCUI = (NormalConveyorUI *)conveyor;
 		pNCUI->setNameForConveyor();
 		pNCUI->setNumberOfProduct();
-		pNCUI->Run();
-		pNCUI->displayNameofProductInConveyor();
 		break;
 	}
 	default:
 	break;
 	}
-	conveyor->setNextConveyor(head);
-	head = conveyor;
+	conveyor->Run();
+	conveyor->setNextConveyor(headOfConveyorInList);
+	headOfConveyorInList = conveyor;
 }
 
 void FactoryAbstract::displayNameOfConveyorInFactory()
 {
 	ConveyorBase *ptr;
-	ptr = head;
+	ptr = headOfConveyorInList;
 	while(ptr != NULL)
 	{
 		cout << ptr->getName() << endl;
@@ -64,11 +63,13 @@ void FactoryAbstract::displayNameOfConveyorInFactory()
 	}
 }
 
+/******************************************************Class Conveyor*****************************************************/
 Product* NormalConveyorUI::headOfProductList = NULL;
 void NormalConveyorUI::insertProduct(unsigned int index)
 {
 	Product* newProduct = new Product;
 	newProduct->setName(index);
+	newProduct->setUpMaterial();
 	newProduct->setNextProduct(headOfProductList);
 	headOfProductList = newProduct;
 }
@@ -127,18 +128,40 @@ string ConveyorBase::getName()
 
 void ConveyorBase::setNextConveyor(ConveyorBase * nextConveyor)
 {
-	next = nextConveyor;
+	nextConveyorInList = nextConveyor;
 }
 
 ConveyorBase * ConveyorBase::getNextConveyor()
 {
-	return next;
+	return nextConveyorInList;
+}
+
+/******************************************************Class Product******************************************************/
+void Product::setNextProduct(Product * nextProduct)
+{
+	nextProductInList = nextProduct;
 }
 
 
-void Product::setNextProduct(Product * nextProduct)
+void Product::setUpMaterial()
 {
-	next = nextProduct;
+	unsigned int _dem = 0;
+	string MaterialList;
+	cout << "Enter the list of material that need to make product - separate by the comma " << name << ": ";
+	cin >> MaterialList;
+	string tokenMaterial;
+	std::istringstream ss(MaterialList);
+	while (getline(ss, tokenMaterial, ','))
+	{
+		insertMaterial(tokenMaterial);
+		_dem++;
+	}
+	numberOfMaterial = _dem;
+}
+
+unsigned int Product::getNumberOfMaterial()
+{
+	return numberOfMaterial;
 }
 
 void Product::setName(unsigned int index)
@@ -154,5 +177,35 @@ string Product::getNameOfProduct()
 
 Product * Product::getNextProduct()
 {
-	return next;
+	return nextProductInList;
+}
+
+void Product::insertMaterial(string MaterialName)
+{
+	Material* newMaterial = new Material;
+	newMaterial->setNameMaterial(MaterialName);
+	newMaterial->setNextMaterial(headOfMaterialList);
+	headOfMaterialList = newMaterial;
+}
+
+/*****************************************************class Material*****************************************************/
+Material* Product::headOfMaterialList = NULL;
+void Material::setNameMaterial(string name)
+{
+	nameOfMaterial = name;
+}
+
+string Material::getNameOfMaterial()
+{
+	return nameOfMaterial;
+}
+
+void Material::setNextMaterial(Material *next)
+{
+	nextMaterialInList = next;
+}
+
+Material * Material::getNextMaterial()
+{
+	return nextMaterialInList;
 }

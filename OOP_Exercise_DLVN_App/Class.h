@@ -5,6 +5,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <sstream>
 
 using namespace std;
 //Material
@@ -12,21 +13,29 @@ class Material
 {
 private:
 	string nameOfMaterial;
+	Material *nextMaterialInList;
 public:
-	void setNameOfMaterial();
+	void setNameMaterial(string name);
 	string getNameOfMaterial();
+	void setNextMaterial(Material*);
+	Material* getNextMaterial();
 };
 //Product
 class Product
 {
 private:
 	string name;
-	Product *next;
+	Product *nextProductInList;
+	unsigned int numberOfMaterial;
+	static Material *headOfMaterialList;
 public:
-	void setNextProduct(Product *nextProduct);
+	void setUpMaterial();
+	unsigned int getNumberOfMaterial();
 	void setName(unsigned int);
 	string getNameOfProduct();
+	void setNextProduct(Product *nextProduct);
 	Product* getNextProduct();
+	void insertMaterial(string MaterialName);
 };
 // Conveyor
 typedef enum  
@@ -38,7 +47,7 @@ class ConveyorBase
 {
 protected:
 	string nameOfConveyor;
-	ConveyorBase *next;
+	ConveyorBase *nextConveyorInList;
 public:
 	virtual void setNameForConveyor() = 0;
 	string getName();
@@ -73,7 +82,7 @@ protected:
 	string nameOfFactory;
 	unsigned int numberOfConveyors;
 	ConveyorBase *conveyor;
-	static ConveyorBase *head;
+	static ConveyorBase *headOfConveyorInList;
 public:
 	virtual void setName() = 0;
 	string getName();
