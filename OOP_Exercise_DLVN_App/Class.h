@@ -35,6 +35,8 @@ class Product
 private:
 	string nameOfProduct;
 	unsigned int weightOfProduct;
+	bool productIsGood;
+	string lablelOfProduct;
 	Product *nextProductInList;
 	unsigned int numberOfMaterial;
 	Material *firstMaterialOfProduct;
@@ -42,6 +44,10 @@ public:
 	Product();
 	void setUpMaterial();
 	void setWeightProduct();
+	void setIsGood(bool);
+	bool getIsGood();
+	void setLabel(string);
+	string getLabel();
 	unsigned int getWeightProduct();
 	unsigned int getNumberOfMaterial();
 	void setNameForFactory(string);
@@ -55,7 +61,7 @@ public:
 // Conveyor
 typedef enum
 {
-	Normal, testWeight, Encap
+	normal, testWeight, makeLabel
 }kindOFConveyor;
 
 class ConveyorBase
@@ -100,6 +106,18 @@ public:
 	void Run(Product *thisProduct);
 	kindOFConveyor getType();
 };
+
+class MakeLabelUI : public ConveyorBase
+{
+private:
+	void setNameForConveyor();
+public:
+	void setUpConveyor();
+	void Run(Product *thisProduct);
+	kindOFConveyor getType();
+};
+
+
 
 // Factory
 class FactoryAbstract

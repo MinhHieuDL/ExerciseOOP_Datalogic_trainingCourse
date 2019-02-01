@@ -17,7 +17,7 @@ namespace OOP_Exercise_DLVN
 		}
 		void setNameForConveyor()
 		{
-			nameOfConveyor = "Normal" + to_string(_count);
+			nameOfConveyor = "normal" + to_string(_count);
 		}
 	};
 	unsigned int NormalConveyorTest::_count = 0;
@@ -39,7 +39,7 @@ namespace OOP_Exercise_DLVN
 		{
 			switch (kOC)
 			{
-			case Normal:
+			case normal:
 				conveyor = new NormalConveyorTest;
 				break;
 			default:
@@ -74,7 +74,7 @@ namespace OOP_Exercise_DLVN
 
 		TEST_METHOD(canInsertOneConveyor)
 		{
-			CandyFactory->insertConveyor(Normal);
+			CandyFactory->insertConveyor(normal);
 			Assert::IsTrue(GetNameOfConveyorFromFactory() == "Normal1");
 			Assert::IsTrue(NormalConveyorTest::_count == 1);
 		}
@@ -84,8 +84,8 @@ namespace OOP_Exercise_DLVN
 			CandyFactory->setNumberOfConveyors();
 			for (unsigned int i = 0; i < CandyFactory->getNumberOfConveyors(); ++i)
 			{
-				CandyFactory->insertConveyor(Normal);
-				Assert::IsTrue(GetNameOfConveyorFromFactory() == "Normal" + to_string(NormalConveyorTest::_count));
+				CandyFactory->insertConveyor(normal);
+				Assert::IsTrue(GetNameOfConveyorFromFactory() == "normal" + to_string(NormalConveyorTest::_count));
 			}
 		}
 
