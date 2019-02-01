@@ -26,13 +26,13 @@ namespace OOP_Exercise_DLVN
 	class FactoryTest : public FactoryAbstract
 	{
 	public:
-		void setName()
+		void setNameForFactory()
 		{
 			nameOfFactory = "DLVN";
 		}
 		void setNumberOfConveyors()
 		{
-			numberOfProductConveyors = 3;
+//			numberOfProductConveyors = 3;
 		}
 #if 0
 		void insertConveyor(kindOFConveyor kOC)
@@ -62,7 +62,7 @@ namespace OOP_Exercise_DLVN
 		}
 		TEST_METHOD(canSetNameForFactory)
 		{
-			CandyFactory->setName();
+			CandyFactory->setNameForFactory();
 			Assert::IsTrue(CandyFactory->getName() == "DLVN");
 		}
 
