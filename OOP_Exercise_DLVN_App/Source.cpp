@@ -6,10 +6,7 @@ int main(void)
 	FactoryAbstract *Scanner = new FactoryUI;
 	Scanner->setName();
 	Scanner->setNumberOfConveyors();
-	for (unsigned i = 0; i < Scanner->getNumberOfConveyors(); i++)
-	{
-		Scanner->insertConveyor(Normal);
-	}
+	Scanner->setUpFactory();
 
 	string ListMater;
 	while(1)

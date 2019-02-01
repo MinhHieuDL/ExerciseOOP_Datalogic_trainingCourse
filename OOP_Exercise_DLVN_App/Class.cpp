@@ -3,23 +3,39 @@
 #include <Windows.h>
 
 /******************************************************Class Factory******************************************************/ 
-ConveyorBase* FactoryAbstract::headOfConveyorInList = NULL;
 
 string FactoryAbstract::getName()
 {
 	return nameOfFactory;
 }
 
-unsigned int FactoryAbstract::getNumberOfConveyors()
+unsigned int FactoryAbstract::getNumberOfConveyors(kindOFConveyor kOC)
 {
-	return numberOfConveyors;
+	unsigned int number = 0;
+	switch (kOC)
+	{
+	case Normal:
+	{
+		number = numberOfProductConveyors;
+		break;
+	}
+	case Test:
+	{
+		number = numberOfTestConveyors;
+		break;
+	}
+	default:
+		break;
+	}
+	return number;
 }
 
-ConveyorBase * FactoryAbstract::getConveyor()
-{
-	return headOfConveyorInList;
-}
 
+FactoryUI::FactoryUI()
+{
+	firstProductConveyor = NULL;
+	firstTestConveyor = NULL;
+}
 
 void FactoryUI::setName()
 {
@@ -29,8 +45,10 @@ void FactoryUI::setName()
 
 void FactoryUI::setNumberOfConveyors()
 {
-	cout << "Enter the number of conveyor: ";
-	cin >> numberOfConveyors;
+	cout << "Enter the number of product conveyor: ";
+	cin >> numberOfProductConveyors;
+	cout << "Enter the number of test conveyor: ";
+	cin >> numberOfTestConveyors;
 	cout << "*************************************************************************" << endl;
 }
 
@@ -41,21 +59,40 @@ void FactoryUI::insertConveyor(kindOFConveyor kOC)
 	case Normal:
 	{
 		conveyor = new NormalConveyorUI;
+		conveyor->setNextConveyor(firstProductConveyor);
+		firstProductConveyor = conveyor;
+		break;
+	}
+	case Test:
+	{
+		conveyor = new TestConveyorUI;
+		conveyor->setNextConveyor(firstTestConveyor);
+		firstTestConveyor = conveyor;
 		break;
 	}
 	default:
 	break;
 	}
 	conveyor->setUpConveyor();
-	conveyor->setNextConveyor(headOfConveyorInList);
-	headOfConveyorInList = conveyor;
 	cout << "*************************************************************************" << endl;
+}
+
+void FactoryAbstract::setUpFactory()
+{
+	for (unsigned int i = 0; i < numberOfProductConveyors; i++)
+	{
+		insertConveyor(Normal);
+	}
+	for (unsigned int i = 0; i < numberOfTestConveyors; i++)
+	{
+		insertConveyor(Test);
+	}
 }
 
 void FactoryAbstract::displayNameOfConveyorInFactory()
 {
 	ConveyorBase *ptr;
-	ptr = headOfConveyorInList;
+	ptr = firstProductConveyor;
 	while(ptr != NULL)
 	{
 		cout << ptr->getName() << endl;
@@ -81,44 +118,45 @@ void FactoryAbstract::productManufactoring(string ListOfMaterial)
 
 	// find the Conveyor that make product from the list of material
 	ConveyorBase *pConveyer = NULL;
-	pConveyer = headOfConveyorInList;
+	pConveyer = firstProductConveyor;
 	while(pConveyer != NULL)
 	{
-		if (pConveyer->getType() == Normal)
+		NormalConveyorUI *pConveyorNormal = (NormalConveyorUI *)pConveyer;
+		Product *pProduct = NULL;
+		pProduct = pConveyorNormal->getHeadOfProductList();
+		while (pProduct != NULL)
 		{
-			NormalConveyorUI *pConveyorNormal = (NormalConveyorUI *)pConveyer;
-			Product *pProduct = NULL;
-			pProduct = pConveyorNormal->getHeadOfProductList();
-			while(pProduct != NULL)
-			{ 
-				if (pProduct->getNumberOfMaterial() == countNode)
+			if (pProduct->getNumberOfMaterial() == countNode)
+			{
+				Material *pMaterial = NULL;
+				pMaterial = pProduct->getFirstMaterialOfProduct();
+				unsigned int _countNumberMaterialEqualToListMaterialEntered = 0;
+				while (pMaterial != NULL)
 				{
-					Material *pMaterial = NULL;
-					pMaterial = pProduct->getHeadOfMaterialList();
-					unsigned int _countNumberMaterialEqualToListMaterialEntered = 0;
-					while(pMaterial != NULL)
+					NodeMaterial *pNodeMaterial = headOfListMaterialEnteredByUser;
+					while (pNodeMaterial != NULL)
 					{
-						NodeMaterial *pNodeMaterial = headOfListMaterialEnteredByUser;
-						while(pNodeMaterial != NULL)
-						{
-							if (pMaterial->getNameOfMaterial() == pNodeMaterial->data)
-								_countNumberMaterialEqualToListMaterialEntered++;
-							pNodeMaterial = pNodeMaterial->nextNodeMaterial;
-						}
-						pMaterial = pMaterial->getNextMaterial();
+						if (pMaterial->getNameOfMaterial() == pNodeMaterial->data)
+							_countNumberMaterialEqualToListMaterialEntered++;
+						pNodeMaterial = pNodeMaterial->nextNodeMaterial;
 					}
-					if (_countNumberMaterialEqualToListMaterialEntered == countNode)
-					{
-						pConveyer->Run();
-						cout << "The product: " << pProduct->getNameOfProduct() << " has make already!! " << "It stays on: " << pConveyer->getName() << " conveyor" << endl;
-						cout << "You can go to there to take it!!" << endl;
-						cout << "*************************************************************************" << endl;
-						deleteListOFNodeMAterial(headOfListMaterialEnteredByUser);
-						return;  // exit the function
-					}
+					pMaterial = pMaterial->getNextMaterial();
 				}
-				pProduct = pProduct->getNextProduct();
+				if (_countNumberMaterialEqualToListMaterialEntered == countNode)
+				{
+					unsigned int ProductWeight = 0;
+					pConveyer->Run();
+					ProductWeight = rand() % 100 + 1;
+					cout << "The product: " << pProduct->getNameOfProduct() << " has make already!! " << endl;
+					cout << "The weight of product is: " << ProductWeight << endl;
+					cout << "It stays on: " << pConveyer->getName() << " conveyor" << endl;
+					cout << "You can go to there to take it!!" << endl;
+					cout << "*************************************************************************" << endl;
+					deleteListOFNodeMAterial(headOfListMaterialEnteredByUser);
+					return;  // exit the function
+				}
 			}
+			pProduct = pProduct->getNextProduct();
 		}
 		pConveyer = pConveyer->getNextConveyor();
 	}
@@ -134,8 +172,8 @@ void NormalConveyorUI::insertProduct(string ProductName)
 	Product* newProduct = new Product;
 	newProduct->setName(ProductName);
 	newProduct->setUpMaterial();
-	newProduct->setNextProduct(headOfProductList);
-	headOfProductList = newProduct;
+	newProduct->setNextProduct(firstProductInConveyor);
+	firstProductInConveyor = newProduct;
 }
 
 void NormalConveyorUI::setUpProduct()
@@ -156,12 +194,12 @@ void NormalConveyorUI::setUpProduct()
 
 NormalConveyorUI::NormalConveyorUI()
 {
-	headOfProductList = NULL;
+	firstProductInConveyor = NULL;
 }
 
 void NormalConveyorUI::setNameForConveyor()
 {
-	cout << "Enter the name of conveyor: ";
+	cout << "Enter the name of production conveyor: ";
 	cin >> nameOfConveyor;
 }
 
@@ -177,11 +215,6 @@ void NormalConveyorUI::setUpConveyor()
 	setUpProduct();
 }
 
-Product * NormalConveyorUI::getProduct()
-{
-	return headOfProductList;
-}
-
 kindOFConveyor NormalConveyorUI::getType()
 {
 	return Normal;
@@ -191,7 +224,7 @@ void NormalConveyorUI::displayNameofProductInConveyor()
 {
 
 	Product *pProduct;
-	pProduct = headOfProductList;
+	pProduct = firstProductInConveyor;
 	while(pProduct != NULL)
 	{
 		cout << pProduct->getNameOfProduct() << endl;
@@ -201,7 +234,7 @@ void NormalConveyorUI::displayNameofProductInConveyor()
 
 Product * NormalConveyorUI::getHeadOfProductList()
 {
-	return headOfProductList;
+	return firstProductInConveyor;
 }
 
 void NormalConveyorUI::Run()
@@ -239,7 +272,7 @@ void Product::setNextProduct(Product * nextProduct)
 
 Product::Product()
 {
-	headOfMaterialList = NULL;
+	firstMaterialOfProduct = NULL;
 }
 
 void Product::setUpMaterial()
@@ -282,13 +315,13 @@ void Product::insertMaterial(string MaterialName)
 {
 	Material* newMaterial = new Material;
 	newMaterial->setNameMaterial(MaterialName);
-	newMaterial->setNextMaterial(headOfMaterialList);
-	headOfMaterialList = newMaterial;
+	newMaterial->setNextMaterial(firstMaterialOfProduct);
+	firstMaterialOfProduct = newMaterial;
 }
 
-Material * Product::getHeadOfMaterialList()
+Material * Product::getFirstMaterialOfProduct()
 {
-	return headOfMaterialList;
+	return firstMaterialOfProduct;
 }
 
 /*****************************************************class Material*****************************************************/
@@ -325,4 +358,28 @@ void deleteListOFNodeMAterial(NodeMaterial * head)
 	}
 }
 
+void TestConveyorUI::setNameForConveyor()
+{
+	cout << "Enter the name of Test conveyor: ";
+	cin >> nameOfConveyor;
+}
 
+void TestConveyorUI::setUpConveyor()
+{
+	setNameForConveyor();
+}
+
+void TestConveyorUI::Run()
+{
+
+}
+
+kindOFConveyor TestConveyorUI::getType()
+{
+	return Test;
+}
+
+bool TestConveyorUI::getPassTest()
+{
+	return PassTest;
+}

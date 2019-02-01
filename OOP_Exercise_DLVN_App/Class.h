@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <stdlib.h>
 
 using namespace std;
 // Material
@@ -36,7 +37,7 @@ private:
 	string nameOfProduct;
 	Product *nextProductInList;
 	unsigned int numberOfMaterial;
-	Material *headOfMaterialList;
+	Material *firstMaterialOfProduct;
 public:
 	Product();
 	void setUpMaterial();
@@ -46,7 +47,7 @@ public:
 	void setNextProduct(Product *nextProduct);
 	Product* getNextProduct();
 	void insertMaterial(string MaterialName);
-	Material* getHeadOfMaterialList();
+	Material* getFirstMaterialOfProduct();
 };
 
 // Conveyor
@@ -74,8 +75,7 @@ class NormalConveyorUI : public ConveyorBase
 {
 private:
 	unsigned int numberOfProduct;
-	Product product;
-	Product *headOfProductList;
+	Product *firstProductInConveyor;
 	void insertProduct(string ProductName);
 	void setUpProduct();
 	void setNameForConveyor();
@@ -83,36 +83,41 @@ public:
 	NormalConveyorUI();
 	unsigned int getNumberOfProduct();
 	void setUpConveyor();
-	Product* getProduct();
 	kindOFConveyor getType();
 	void displayNameofProductInConveyor();
 	Product* getHeadOfProductList();
 	void Run();
 };
 
-//class TestConveyorUI : public ConveyorBase
-//{
-//public:
-//	void setNameForConveyor();
-//	void setUpConveyor();
-//	kindOFConveyor getType();
-//};
+class TestConveyorUI : public ConveyorBase
+{
+private:
+	bool PassTest;
+	void setNameForConveyor();
+public:
+	void setUpConveyor();
+	void Run();
+	kindOFConveyor getType();
+	bool getPassTest();
+};
 
 // Factory
 class FactoryAbstract
 {
 protected:
 	string nameOfFactory;
-	unsigned int numberOfConveyors;
+	unsigned int numberOfProductConveyors;
+	unsigned int numberOfTestConveyors;
 	ConveyorBase *conveyor;
-	static ConveyorBase *headOfConveyorInList;
+	ConveyorBase *firstProductConveyor;
+	ConveyorBase *firstTestConveyor;
 public:
 	virtual void setName() = 0;
 	string getName();
 	virtual void setNumberOfConveyors() = 0;
-	unsigned int getNumberOfConveyors();
+	unsigned int getNumberOfConveyors(kindOFConveyor);
 	virtual void insertConveyor(kindOFConveyor) = 0;
-	ConveyorBase* getConveyor();
+	void setUpFactory();
 	void displayNameOfConveyorInFactory();
 	void productManufactoring(string ListOfMaterial);
 };
@@ -120,6 +125,7 @@ public:
 class FactoryUI : virtual public FactoryAbstract
 {
 public:
+	FactoryUI();
 	void setName();
 	void setNumberOfConveyors();
 	void insertConveyor(kindOFConveyor);

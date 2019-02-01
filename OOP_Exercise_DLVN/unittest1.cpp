@@ -32,7 +32,7 @@ namespace OOP_Exercise_DLVN
 		}
 		void setNumberOfConveyors()
 		{
-			numberOfConveyors = 3;
+			numberOfProductConveyors = 3;
 		}
 #if 0
 		void insertConveyor(kindOFConveyor kOC)
