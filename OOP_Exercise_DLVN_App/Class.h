@@ -66,6 +66,7 @@ public:
 	void setNextConveyor(ConveyorBase *nextConveyor);
 	ConveyorBase* getNextConveyor();
 	virtual void setUpConveyor() = 0;
+	virtual void Run() = 0;
 	virtual kindOFConveyor getType() = 0;
 };
 
@@ -77,15 +78,16 @@ private:
 	Product *headOfProductList;
 	void insertProduct(string ProductName);
 	void setUpProduct();
+	void setNameForConveyor();
 public: 
 	NormalConveyorUI();
-	void setNameForConveyor();
 	unsigned int getNumberOfProduct();
 	void setUpConveyor();
 	Product* getProduct();
 	kindOFConveyor getType();
 	void displayNameofProductInConveyor();
 	Product* getHeadOfProductList();
+	void Run();
 };
 
 //class TestConveyorUI : public ConveyorBase

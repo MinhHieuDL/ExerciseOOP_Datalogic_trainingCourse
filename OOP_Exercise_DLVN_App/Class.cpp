@@ -1,5 +1,6 @@
 
 #include "Class.h"
+#include <Windows.h>
 
 /******************************************************Class Factory******************************************************/ 
 ConveyorBase* FactoryAbstract::headOfConveyorInList = NULL;
@@ -45,7 +46,6 @@ void FactoryUI::insertConveyor(kindOFConveyor kOC)
 	default:
 	break;
 	}
-	conveyor->setNameForConveyor();
 	conveyor->setUpConveyor();
 	conveyor->setNextConveyor(headOfConveyorInList);
 	headOfConveyorInList = conveyor;
@@ -109,6 +109,7 @@ void FactoryAbstract::productManufactoring(string ListOfMaterial)
 					}
 					if (_countNumberMaterialEqualToListMaterialEntered == countNode)
 					{
+						pConveyer->Run();
 						cout << "The product: " << pProduct->getNameOfProduct() << " has make already!! " << "It stays on: " << pConveyer->getName() << " conveyor" << endl;
 						cout << "You can go to there to take it!!" << endl;
 						cout << "*************************************************************************" << endl;
@@ -170,8 +171,9 @@ unsigned int NormalConveyorUI::getNumberOfProduct()
 	return numberOfProduct;
 }
 
-inline void NormalConveyorUI::setUpConveyor()
+void NormalConveyorUI::setUpConveyor()
 {
+	setNameForConveyor();
 	setUpProduct();
 }
 
@@ -200,6 +202,17 @@ void NormalConveyorUI::displayNameofProductInConveyor()
 Product * NormalConveyorUI::getHeadOfProductList()
 {
 	return headOfProductList;
+}
+
+void NormalConveyorUI::Run()
+{
+	cout << "Product was making! Please wait.";
+	for (unsigned int i = 0; i < 5; i++)
+	{
+		cout << ".";
+		Sleep(500);
+	}
+	cout << endl;
 }
 
 string ConveyorBase::getName()
