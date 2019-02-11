@@ -13,7 +13,7 @@ int main(void)
 		cout << "Enter the list of material that you want - separate by comma: ";
 		cin >> ListMater;
 		if (ListMater == "exit") break;
-		Scanner->productManufactoring(ListMater);
+		Scanner->productManufacturing(ListMater);
 	}
 	system("pause");
 

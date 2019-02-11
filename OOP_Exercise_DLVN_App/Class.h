@@ -44,13 +44,13 @@ public:
 	Product();
 	void setUpMaterial();
 	void setWeightProduct();
+	unsigned int getWeightProduct();
 	void setIsGood(bool);
 	bool getIsGood();
 	void setLabel(string);
 	string getLabel();
-	unsigned int getWeightProduct();
 	unsigned int getNumberOfMaterial();
-	void setNameForFactory(string);
+	void setNameForProduct(string);
 	string getNameOfProduct();
 	void setNextProduct(Product *nextProduct);
 	Product* getNextProduct();
@@ -69,8 +69,8 @@ class ConveyorBase
 protected:
 	string nameOfConveyor;
 	ConveyorBase *nextConveyorInList;
-public:
 	virtual void setNameForConveyor() = 0;
+public:
 	string getName();
 	void setNextConveyor(ConveyorBase *nextConveyor);
 	ConveyorBase* getNextConveyor();
@@ -84,12 +84,12 @@ class NormalConveyorUI : public ConveyorBase
 private:
 	unsigned int numberOfProduct;
 	Product *headOfProductList;
-	void insertProduct(string ProductName);
-	void setUpProduct();
 	void setNameForConveyor();
+	void setUpProduct();
 public:
 	NormalConveyorUI();
 	unsigned int getNumberOfProduct();
+	void insertProduct(string ProductName);
 	void setUpConveyor();
 	kindOFConveyor getType();
 	void displayNameofProductInConveyor();
@@ -127,25 +127,25 @@ protected:
 	unsigned int numberOfConveyors;
 	ConveyorBase *conveyor;
 	static ConveyorBase *headOfConveyorInList;
+	virtual void setNameForFactory() = 0;
 public:
 	virtual void setUpFactory() = 0;
-	virtual void setNameForFactory() = 0;
 	string getName();
 	void setNumberOfConveyors();
 	unsigned int getNumberOfConveyors();
 	virtual void insertConveyor(kindOFConveyor) = 0;
 	ConveyorBase* getConveyor();
 	void displayNameOfConveyorInFactory();
-	void productManufactoring(string ListOfMaterial);
+	void productManufacturing(string ListOfMaterial);
 };
 
 class FactoryUI : virtual public FactoryAbstract
 {
 private:
 	void setNameForFactory();
-	void insertConveyor(kindOFConveyor);
 public:
 	void setUpFactory();
+	void insertConveyor(kindOFConveyor);
 };
 
 

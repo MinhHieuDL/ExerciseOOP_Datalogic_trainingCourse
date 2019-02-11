@@ -43,6 +43,7 @@ void FactoryUI::setUpFactory()
 		insertConveyor(normal);
 	}
 	insertConveyor(testWeight);
+	numberOfConveyors++;
 	insertConveyor(makeLabel);
 	numberOfConveyors++;
 }
@@ -87,7 +88,7 @@ void FactoryAbstract::displayNameOfConveyorInFactory()
 	}
 }
 
-void FactoryAbstract::productManufactoring(string ListOfMaterial)
+void FactoryAbstract::productManufacturing(string ListOfMaterial)
 {
 	// create link list of material from the List was entered by user
 	unsigned countNode = 0;
@@ -134,7 +135,7 @@ void FactoryAbstract::productManufactoring(string ListOfMaterial)
 					if (_countNumberMaterialEqualToListMaterialEntered == countNode)
 					{
 						pConveyor->Run(pProduct);
-						cout << "The product: " << pProduct->getNameOfProduct() << " has been created already on the conveyor " << pConveyor->getName() << endl;
+						cout << "The product " << pProduct->getNameOfProduct() << " has been created already on the conveyor " << pConveyor->getName() << ". The weight of product is: " << pProduct->getWeightProduct() << " kg" << endl;
 						// test product 
 						pConveyor = headOfConveyorInList;
 						while (pConveyor->getType() != testWeight)
@@ -169,7 +170,7 @@ void FactoryAbstract::productManufactoring(string ListOfMaterial)
 void NormalConveyorUI::insertProduct(string ProductName)
 {
 	Product* newProduct = new Product;
-	newProduct->setNameForFactory(ProductName);
+	newProduct->setNameForProduct(ProductName);
 	newProduct->setUpMaterial();
 	newProduct->setNextProduct(headOfProductList);
 	headOfProductList = newProduct;
@@ -243,7 +244,7 @@ void NormalConveyorUI::Run(Product *thisProduct)
 	for (unsigned int i = 0; i < 5; i++)
 	{
 		cout << ".";
-		Sleep(500);
+		Sleep(200);
 	}
 	cout << endl;
 }
@@ -313,7 +314,7 @@ string Product::getLabel()
 
 void Product::setWeightProduct()
 {
-	weightOfProduct = rand() % 100 + 1;
+	weightOfProduct = rand() % 50 + 1;
 }
 
 unsigned int Product::getWeightProduct()
@@ -326,7 +327,7 @@ unsigned int Product::getNumberOfMaterial()
 	return numberOfMaterial;
 }
 
-void Product::setNameForFactory(string PrName)
+void Product::setNameForProduct(string PrName)
 {
 	nameOfProduct = PrName;
 }
@@ -401,11 +402,11 @@ void TestWeightUI::setUpConveyor()
 
 void TestWeightUI::Run(Product * thisProduct)
 {
-	cout << "Product is being tested! Please wait.";
+	cout << "Product is being tested on conveyor name " << this->getName() << "! Please wait.";
 	for (unsigned int i = 0; i < 5; i++)
 	{
 		cout << ".";
-		Sleep(500);
+		Sleep(200);
 	}
 	cout << endl;
 	if ((thisProduct->getWeightProduct() > 10) && (thisProduct->getWeightProduct() < 30))
@@ -418,7 +419,6 @@ void TestWeightUI::Run(Product * thisProduct)
 		thisProduct->setIsGood(false);
 		cout << "This product has failed the Weight Test!" << endl;
 	}
-	cout << "The weight of product is: " << thisProduct->getWeightProduct() << endl;
 }
 
 kindOFConveyor TestWeightUI::getType()
@@ -440,11 +440,11 @@ void MakeLabelUI::setUpConveyor()
 void MakeLabelUI::Run(Product * thisProduct)
 {
 	bool productIsGood = thisProduct->getIsGood();
-	cout << "Product is being labeled! Please wait.";
+	cout << "Product is being labeled on conveyor name: " << this->getName() <<"! Please wait.";
 	for (unsigned int i = 0; i < 5; i++)
 	{
 		cout << ".";
-		Sleep(500);
+		Sleep(200);
 	}
 	cout << endl;
 	switch (productIsGood)
