@@ -15,13 +15,6 @@ unsigned int FactoryAbstract::getNumberOfConveyors()
 	return numberOfConveyors;
 }
 
-void FactoryAbstract::setNumberOfConveyors()
-{
-	cout << "Enter the number of production conveyor: ";
-	cin >> numberOfConveyors;
-	cout << "*************************************************************************" << endl;
-}
-
 ConveyorBase * FactoryAbstract::getConveyor()
 {
 	return headOfConveyorInList;
@@ -37,15 +30,16 @@ void FactoryUI::setNameForFactory()
 void FactoryUI::setUpFactory()
 {
 	setNameForFactory();
-	setNumberOfConveyors();
-	for (unsigned int i = 0; i < numberOfConveyors; i++)
+	unsigned int countConveyor = 0;
+	cout << "Enter number of production conveyor: ";
+	cin >> countConveyor;
+	cout << "*************************************************************************" << endl;
+	for (unsigned int i = 0; i < countConveyor; i++)
 	{
 		insertConveyor(normal);
 	}
 	insertConveyor(testWeight);
-	numberOfConveyors++;
 	insertConveyor(makeLabel);
-	numberOfConveyors++;
 }
 
 
@@ -74,6 +68,7 @@ void FactoryUI::insertConveyor(kindOFConveyor kOC)
 	conveyor->setUpConveyor();
 	conveyor->setNextConveyor(headOfConveyorInList);
 	headOfConveyorInList = conveyor;
+	numberOfConveyors++;
 	cout << "*************************************************************************" << endl;
 }
 
@@ -166,7 +161,8 @@ void FactoryAbstract::productManufacturing(string ListOfMaterial)
 }
 
 /******************************************************Class Conveyor*****************************************************/
-//Product* NormalConveyorUI::headOfProductList = NULL;
+
+// Normal Conveyor
 void NormalConveyorUI::insertProduct(string ProductName)
 {
 	Product* newProduct = new Product;
@@ -174,11 +170,11 @@ void NormalConveyorUI::insertProduct(string ProductName)
 	newProduct->setUpMaterial();
 	newProduct->setNextProduct(headOfProductList);
 	headOfProductList = newProduct;
+	numberOfProduct++;
 }
 
 void NormalConveyorUI::setUpProduct()
 {
-	unsigned int _dem = 0;
 	string ProductList;
 	cout << "Enter the list of product that was made on " << nameOfConveyor << " conveyor -- separate by the comma" << ": ";
 	cin >> ProductList;
@@ -187,14 +183,13 @@ void NormalConveyorUI::setUpProduct()
 	while (getline(ss, tokenProduct, ','))
 	{
 		insertProduct(tokenProduct);
-		_dem++;
 	}
-	numberOfProduct = _dem;
 }
 
 NormalConveyorUI::NormalConveyorUI()
 {
 	headOfProductList = NULL;
+	numberOfProduct = 0;
 }
 
 void NormalConveyorUI::setNameForConveyor()
@@ -249,6 +244,90 @@ void NormalConveyorUI::Run(Product *thisProduct)
 	cout << endl;
 }
 
+// Test Conveyor
+void TestWeightUI::setNameForConveyor()
+{
+	cout << "Enter the name of test weight conveyor: ";
+	cin >> nameOfConveyor;
+}
+
+void TestWeightUI::setUpConveyor()
+{
+	setNameForConveyor();
+}
+
+void TestWeightUI::Run(Product * thisProduct)
+{
+	cout << "Product is being tested on conveyor name " << this->getName() << "! Please wait.";
+	for (unsigned int i = 0; i < 5; i++)
+	{
+		cout << ".";
+		Sleep(200);
+	}
+	cout << endl;
+	if ((thisProduct->getWeightProduct() > 10) && (thisProduct->getWeightProduct() < 30))
+	{
+		thisProduct->setIsGood(true);
+		cout << "This product has passed the Weight Test!! Cool ^^" << endl;
+	}
+	else
+	{
+		thisProduct->setIsGood(false);
+		cout << "This product has failed the Weight Test!" << endl;
+	}
+}
+
+kindOFConveyor TestWeightUI::getType()
+{
+	return testWeight;
+}
+
+// MakeLabel Conveyor
+
+void MakeLabelUI::setNameForConveyor()
+{
+	cout << "Enter the name for the make lable conveyor: ";
+	cin >> nameOfConveyor;
+}
+
+void MakeLabelUI::setUpConveyor()
+{
+	setNameForConveyor();
+}
+
+void MakeLabelUI::Run(Product * thisProduct)
+{
+	bool productIsGood = thisProduct->getIsGood();
+	cout << "Product is being labeled on conveyor name: " << this->getName() << "! Please wait.";
+	for (unsigned int i = 0; i < 5; i++)
+	{
+		cout << ".";
+		Sleep(200);
+	}
+	cout << endl;
+	switch (productIsGood)
+	{
+	case true:
+	{
+		thisProduct->setLabel("ISO9001");
+		break;
+	}
+	case false:
+	{
+		thisProduct->setLabel("The product is not good quality");
+		break;
+	}
+	}
+	cout << "Label of product is: " << thisProduct->getLabel() << endl;
+}
+
+kindOFConveyor MakeLabelUI::getType()
+{
+	return makeLabel;
+}
+
+
+// Conveyor Base
 string ConveyorBase::getName()
 {
 	return nameOfConveyor;
@@ -274,11 +353,11 @@ void Product::setNextProduct(Product * nextProduct)
 Product::Product()
 {
 	firstMaterialOfProduct = NULL;
+	numberOfMaterial = 0;
 }
 
 void Product::setUpMaterial()
 {
-	unsigned int _dem = 0;
 	string MaterialList;
 	cout << "Enter the list of material that need to make product " << nameOfProduct << " separate by the comma: ";
 	cin >> MaterialList;
@@ -287,9 +366,7 @@ void Product::setUpMaterial()
 	while (getline(ss, tokenMaterial, ','))
 	{
 		insertMaterial(tokenMaterial);
-		_dem++;
 	}
-	numberOfMaterial = _dem;
 }
 
 void Product::setIsGood(bool good)
@@ -348,6 +425,7 @@ void Product::insertMaterial(string MaterialName)
 	newMaterial->setNameMaterial(MaterialName);
 	newMaterial->setNextMaterial(firstMaterialOfProduct);
 	firstMaterialOfProduct = newMaterial;
+	numberOfMaterial++;
 }
 
 Material * Product::getHeadOfMaterialList()
@@ -389,83 +467,3 @@ void deleteListOFNodeMAterial(NodeMaterial * head)
 	}
 }
 
-void TestWeightUI::setNameForConveyor()
-{
-	cout << "Enter the name of test conveyor: ";
-	cin >> nameOfConveyor;
-}
-
-void TestWeightUI::setUpConveyor()
-{
-	setNameForConveyor();
-}
-
-void TestWeightUI::Run(Product * thisProduct)
-{
-	cout << "Product is being tested on conveyor name " << this->getName() << "! Please wait.";
-	for (unsigned int i = 0; i < 5; i++)
-	{
-		cout << ".";
-		Sleep(200);
-	}
-	cout << endl;
-	if ((thisProduct->getWeightProduct() > 10) && (thisProduct->getWeightProduct() < 30))
-	{
-		thisProduct->setIsGood(true);
-		cout << "This product has passed the Weight Test!! Cool ^^" << endl;
-	}
-	else
-	{
-		thisProduct->setIsGood(false);
-		cout << "This product has failed the Weight Test!" << endl;
-	}
-}
-
-kindOFConveyor TestWeightUI::getType()
-{
-	return testWeight;
-}
-
-void MakeLabelUI::setNameForConveyor()
-{
-	cout << "Enter the name for the make lable conveyor: ";
-	cin >> nameOfConveyor;
-}
-
-void MakeLabelUI::setUpConveyor()
-{
-	setNameForConveyor();
-}
-
-void MakeLabelUI::Run(Product * thisProduct)
-{
-	bool productIsGood = thisProduct->getIsGood();
-	cout << "Product is being labeled on conveyor name: " << this->getName() <<"! Please wait.";
-	for (unsigned int i = 0; i < 5; i++)
-	{
-		cout << ".";
-		Sleep(200);
-	}
-	cout << endl;
-	switch (productIsGood)
-	{
-	case true:
-	{
-		thisProduct->setLabel("ISO9001");
-		break;
-	}
-	case false:
-	{
-		thisProduct->setLabel("The product is not good quality");
-		break;
-	}
-	default:
-		break;
-	}
-	cout << "Label of product is: " << thisProduct->getLabel() << endl;
-}
-
-kindOFConveyor MakeLabelUI::getType()
-{
-	return makeLabel;
-}

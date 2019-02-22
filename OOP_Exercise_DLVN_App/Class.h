@@ -1,5 +1,6 @@
-#ifndef CLASS_H
-#define CLASS_H
+#pragma once
+#ifndef _CLASS_H_
+#define _CLASS_H_
 
 
 #pragma once
@@ -131,7 +132,6 @@ protected:
 public:
 	virtual void setUpFactory() = 0;
 	string getName();
-	void setNumberOfConveyors();
 	unsigned int getNumberOfConveyors();
 	virtual void insertConveyor(kindOFConveyor) = 0;
 	ConveyorBase* getConveyor();
